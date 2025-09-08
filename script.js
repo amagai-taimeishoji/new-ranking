@@ -35,7 +35,7 @@ function initSelectors() {
 
 // ランキング表示関数（さっきの loadRanking/loadAll を流用）
 async function loadRanking(targetId, year, month, type) {
-  const url = `https://script.google.com/macros/s/AKf.../exec?year=${year}&month=${month}&type=${encodeURIComponent(type)}`;
+  const url = `https://script.google.com/macros/s/AKfycbyOKV9MCu4xcFP97ZsXPdA0lZ0y6VpH-9Cjq1XZZ_uebKRwvcXek3t_p7kYK6vbEUDJ/exec?year=${year}&month=${month}&type=${encodeURIComponent(type)}`;
   const res = await fetch(url);
   const data = await res.json();
 
