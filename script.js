@@ -27,7 +27,7 @@ yearSelect.value = today.getFullYear();
 monthSelect.value = today.getMonth() + 1;
 
 // GAS URL
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwODALSZqcS-GNaYO6lbDrTqc0NW3lZ7KK3HA17yVpfSKTiD-B_b7OQlXFCwPOaep7y/exec'; 
+const GAS_URL = 'https://script.google.com/macros/s/xxxx/exec'; // ←自分のGAS URLに置き換え
 
 // データ取得
 async function fetchRanking(year, month) {
@@ -72,6 +72,9 @@ function renderRanking(id, data, scoreType) {
 }
 
 // 更新処理
+// ... 前のコードはそのまま
+
+// 更新処理
 async function updateRankings() {
   loading.style.display = 'block';
   rankingsDiv.style.display = 'none';
@@ -79,8 +82,8 @@ async function updateRankings() {
   const year = yearSelect.value;
   const month = monthSelect.value;
 
-  // タイトル更新
-  rankingTitle.textContent = `${year}年${month}月ランキング`;
+  // タイトル更新（プルダウンの値に合わせて）
+  rankingTitle.innerHTML = `<span class="yearMonth">${year}年${month}月</span><br><span class="rankingText">ランキング</span>`;
 
   try {
     const data = await fetchRanking(year, month);
@@ -91,7 +94,7 @@ async function updateRankings() {
     renderRanking('averageRankRanking', data['平均着順ランキング'], '平均着順');
   } catch (err) {
     console.error(err);
-    loading.textContent = "データ取得に失敗しました…(T‐T)";
+    loading.textContent = "データ取得に失敗しました…(T-T)";
     return;
   }
 
@@ -99,8 +102,5 @@ async function updateRankings() {
   rankingsDiv.style.display = 'block';
 }
 
-// 検索ボタン
-searchBtn.addEventListener('click', updateRankings);
-
-// 初期表示
+// 初期表示（プルダウンのひと月前に合わせてタイトルも更新）
 updateRankings();
