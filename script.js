@@ -27,8 +27,7 @@ yearSelect.value = today.getFullYear();
 monthSelect.value = today.getMonth() + 1;
 
 // GAS URL
-const GAS_URL = 'https://script.google.com/macros/s/xxxx/exec'; // ←自分のGAS URLに置き換え
-
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwODALSZqcS-GNaYO6lbDrTqc0NW3lZ7KK3HA17yVpfSKTiD-B_b7OQlXFCwPOaep7y/exec'; // 
 // データ取得
 async function fetchRanking(year, month) {
   const res = await fetch(`${GAS_URL}?year=${year}&month=${month}`);
@@ -72,9 +71,6 @@ function renderRanking(id, data, scoreType) {
 }
 
 // 更新処理
-// ... 前のコードはそのまま
-
-// 更新処理
 async function updateRankings() {
   loading.style.display = 'block';
   rankingsDiv.style.display = 'none';
@@ -82,25 +78,33 @@ async function updateRankings() {
   const year = yearSelect.value;
   const month = monthSelect.value;
 
-  // タイトル更新（プルダウンの値に合わせて）
+  // タイトル更新（プルダウン値に合わせて改行表示）
   rankingTitle.innerHTML = `<span class="yearMonth">${year}年${month}月</span><br><span class="rankingText">ランキング</span>`;
 
   try {
+    // GASからデータ取得
     const data = await fetchRanking(year, month);
+
+    // 各ランキング描画
     renderRanking('hanjanRanking', data['半荘数ランキング'], '半荘数');
     renderRanking('totalScoreRanking', data['総スコアランキング'], '総スコア');
     renderRanking('highestScoreRanking', data['最高スコアランキング'], '最高スコア');
     renderRanking('averageScoreRanking', data['平均スコアランキング'], '平均スコア');
     renderRanking('averageRankRanking', data['平均着順ランキング'], '平均着順');
+
   } catch (err) {
     console.error(err);
     loading.textContent = "データ取得に失敗しました…(T-T)";
     return;
   }
 
+  // ロード中非表示、ランキング表示
   loading.style.display = 'none';
   rankingsDiv.style.display = 'block';
 }
 
-// 初期表示（プルダウンのひと月前に合わせてタイトルも更新）
+// 検索ボタン
+searchBtn.addEventListener('click', updateRankings);
+
+// 初期表示
 updateRankings();
