@@ -28,7 +28,7 @@ yearSelect.value = initialYear;
 monthSelect.value = initialMonth;
 
 // GAS URL
-const GAS_URL = 'https://script.google.com/macros/s/xxxx/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwQ3jqSY6r-Fo84dUI3V8n1ZM0RIkn1SsHm7Av7TrLA9gsJL3pz0Vu_DYgpmfi5P_pi/exec';
 
 // データ取得
 async function fetchRanking(year, month) {
