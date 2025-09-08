@@ -1,96 +1,114 @@
-// ==== 年月セレクトを生成 ====
-const yearSelect = document.getElementById("year-select");
-const monthSelect = document.getElementById("month-select");
-const resultsDiv = document.getElementById("results");
+const yearSelect = document.getElementById('yearSelect');
+const monthSelect = document.getElementById('monthSelect');
+const loading = document.getElementById('loading');
+const rankingsDiv = document.getElementById('rankings');
 
+// 年・月プルダウン作成
 for (let y = 2025; y <= 2027; y++) {
-  let opt = document.createElement("option");
-  opt.value = y;
-  opt.textContent = y + "年";
-  yearSelect.appendChild(opt);
+  const option = document.createElement('option');
+  option.value = y;
+  option.textContent = y;
+  yearSelect.appendChild(option);
 }
 
 for (let m = 1; m <= 12; m++) {
-  let opt = document.createElement("option");
-  opt.value = m;
-  opt.textContent = m + "月";
-  monthSelect.appendChild(opt);
+  const option = document.createElement('option');
+  option.value = m;
+  option.textContent = m;
+  monthSelect.appendChild(option);
 }
 
-// ==== ランキング種類 ====
-const rankingTypes = [
-  { key: "半荘数ランキング", title: "半荘数ランキング" },
-  { key: "総スコアランキング", title: "総スコアランキング" },
-  { key: "最高スコアランキング", title: "最高スコアランキング" },
-  { key: "平均スコアランキング", title: "平均スコアランキング" },
-  { key: "平均着順ランキング", title: "平均着順ランキング" }
-];
+// 初期表示を現在のひと月前に設定
+const today = new Date();
+today.setMonth(today.getMonth() - 1); // ひと月前
+const initialYear = today.getFullYear();
+const initialMonth = today.getMonth() + 1; // JSは0始まり
 
-// ==== データ取得 ====
-document.getElementById("search-button").addEventListener("click", () => {
+yearSelect.value = initialYear;
+monthSelect.value = initialMonth;
+
+// GAS URL
+const GAS_URL = 'https://script.google.com/macros/s/xxxx/exec';
+
+// データ取得
+async function fetchRanking(year, month) {
+  const res = await fetch(`${GAS_URL}?year=${year}&month=${month}`);
+  const data = await res.json();
+  return data; 
+}
+
+// スコアフォーマット
+function formatScore(value, type) {
+  if (value === "" || value == null) return "";
+  const num = parseFloat(value);
+  if (isNaN(num)) return value;
+
+  switch(type){
+    case '半荘数': return `${num}半荘`;
+    case '総スコア':
+    case '最高スコア': return `${num.toFixed(1)}pt`;
+    case '平均スコア': return `${num.toFixed(3)}pt`;
+    case '平均着順': return `${num.toFixed(3)}位`;
+    default: return num;
+  }
+}
+
+// ランキング描画
+function renderRanking(id, data, scoreType) {
+  const tbody = document.querySelector(`#${id} tbody`);
+  tbody.innerHTML = '';
+
+  // ヘッダー行（2行目）
+  if(data.header && data.header.length === 3){
+    const headerTr = document.createElement('tr');
+    headerTr.innerHTML = `
+      <th>${data.header[0]}</th>
+      <th>${data.header[1]}</th>
+      <th>${data.header[2]}</th>
+    `;
+    tbody.appendChild(headerTr);
+  }
+
+  // データ行（3行目以降）
+  data.rows.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${row.順位}位</td>
+      <td>${row.名前}</td>
+      <td>${formatScore(row.スコア, scoreType)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// 更新処理（ロード表示対応）
+async function updateRankings() {
+  loading.style.display = 'block';
+  rankingsDiv.style.display = 'none';
+
   const year = yearSelect.value;
   const month = monthSelect.value;
+  try {
+    const data = await fetchRanking(year, month);
 
-  // ここで結果をリセット
-  resultsDiv.innerHTML = "";
+    renderRanking('hanjanRanking', data['半荘数ランキング'], '半荘数');
+    renderRanking('totalScoreRanking', data['総スコアランキング'], '総スコア');
+    renderRanking('highestScoreRanking', data['最高スコアランキング'], '最高スコア');
+    renderRanking('averageScoreRanking', data['平均スコアランキング'], '平均スコア');
+    renderRanking('averageRankRanking', data['平均着順ランキング'], '平均着順');
+  } catch (err) {
+    console.error(err);
+    loading.textContent = "データ取得に失敗しました…💦";
+    return;
+  }
 
-  rankingTypes.forEach(rt => {
-    fetchRanking(year, month, rt.key, rt.title);
-  });
-});
-
-
-function fetchRanking(year, month, type, title) {
-  const apiUrl = `https://script.google.com/macros/s/AKfycbyOKV9MCu4xcFP97ZsXPdA0lZ0y6VpH-9Cjq1XZZ_uebKRwvcXek3t_p7kYK6vbEUDJ/exec?year=${year}&month=${month}&type=${type}`;
-
-  fetch(apiUrl)
-    .then(res => res.json())
-    .then(data => {
-      renderTable(title, data);
-    })
-    .catch(err => {
-      console.error("Fetch error:", err);
-      renderTable(title, []);
-    });
+  loading.style.display = 'none';
+  rankingsDiv.style.display = 'block';
 }
 
-// ==== 表示用テーブル生成 ====
-function renderTable(title, rows) {
-  const container = document.createElement("div");
+// プルダウン変更時
+yearSelect.addEventListener('change', updateRankings);
+monthSelect.addEventListener('change', updateRankings);
 
-  const heading = document.createElement("h2");
-  heading.textContent = title;
-  container.appendChild(heading);
-
-  const table = document.createElement("div");
-  table.className = "table";
-
-  // ヘッダー
-  ["順位", "名前", "スコア"].forEach(h => {
-    const div = document.createElement("div");
-    div.className = "header";
-    div.textContent = h;
-    table.appendChild(div);
-  });
-
-  // データ
-  rows.forEach((row, index) => {
-    const rank = document.createElement("div");
-    rank.className = "data";
-    rank.textContent = index + 1;
-    table.appendChild(rank);
-
-    const name = document.createElement("div");
-    name.className = "data";
-    name.textContent = row[0] || "";
-    table.appendChild(name);
-
-    const score = document.createElement("div");
-    score.className = "data";
-    score.textContent = row[1] || "";
-    table.appendChild(score);
-  });
-
-  container.appendChild(table);
-  resultsDiv.appendChild(container);
-}
+// 初期表示（ひと月前）
+updateRankings();
