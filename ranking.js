@@ -39,7 +39,7 @@ document.getElementById("search-button").addEventListener("click", () => {
 });
 
 function fetchRanking(year, month, type, title) {
-  const apiUrl = `https://script.google.com/macros/s/あなたのGASデプロイID/exec?year=${year}&month=${month}&type=${type}`;
+  const apiUrl = `https://script.google.com/macros/s/AKfycbxssT9BzMxWm8pWTF_RwPPccfaQe3sZbDLHoAbT_4VPB1kC4bikLfh8_XTTUrPPetcY/exec?year=${year}&month=${month}&type=${type}`;
 
   fetch(apiUrl)
     .then(res => res.json())
