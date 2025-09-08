@@ -6,6 +6,7 @@ body {
   color: #333;
 }
 
+/* 検索エリア */
 .controls {
   display: flex;
   flex-wrap: wrap;
@@ -15,8 +16,7 @@ body {
   align-items: center;
 }
 
-.controls select,
-.controls button {
+.controls select {
   padding: 5px 12px;
   font-size: 0.9rem;
   border: 1px solid #ccc;
@@ -25,21 +25,60 @@ body {
   transition: all 0.2s;
 }
 
-.controls select:focus,
-.controls button:focus {
+.controls select:focus {
   outline: none;
   border-color: #888;
 }
 
-.controls button {
-  background-color: #f0f0f0;
-  color: #333;
-  font-weight: bold;
+/* 検索ボタン */
+#searchBtn {
+  background: linear-gradient(45deg, #4caf50, #81c784);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 3.5vw;
   cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
-.controls button:hover {
-  background-color: #e0e0e0;
+#searchBtn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #45a049, #66bb6a);
+}
+
+/* ランキングタイトル */
+.ranking h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 6px 0;
+  background: repeating-linear-gradient(
+      -45deg,
+      #f0f8ff,
+      #f0f8ff 3px,
+      #e9f4ff 3px,
+      #e9f4ff 7px
+  );
+  border-radius: 4px;
+}
+
+/* ランキングテーブル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #d0ebff; /* ヘッダー背景色 */
 }
 
 #loading {
@@ -50,24 +89,4 @@ body {
 
 .ranking {
   margin-bottom: 30px;
-}
-
-.ranking h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 6px 8px;
-  text-align: left;
-  border-bottom: 1px solid #ccc;
-}
-
-th {
-  background-color: #eee;
 }
