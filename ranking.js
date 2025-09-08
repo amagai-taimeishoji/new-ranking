@@ -1,46 +1,11 @@
-// プルダウン初期化
-function initSelectors() {
-  const yearSelect = document.getElementById("year-select");
-  const monthSelect = document.getElementById("month-select");
-
-  // 年: 2025〜2027
-  for (let y = 2025; y <= 2027; y++) {
-    const option = document.createElement("option");
-    option.value = y;
-    option.textContent = `${y}年`;
-    yearSelect.appendChild(option);
-  }
-
-  // 月: 1〜12
-  for (let m = 1; m <= 12; m++) {
-    const option = document.createElement("option");
-    option.value = m;
-    option.textContent = `${m}月`;
-    monthSelect.appendChild(option);
-  }
-
-  // 今日の年月を取得
-  const now = new Date();
-  const thisYear = now.getFullYear();
-  const thisMonth = now.getMonth() + 1;
-
-  // 初期値を「現在の年月」に設定
-  if (thisYear >= 2025 && thisYear <= 2027) {
-    yearSelect.value = thisYear;
-  } else {
-    yearSelect.value = 2025; // 範囲外ならデフォルト
-  }
-  monthSelect.value = thisMonth;
-}
-
-// ランキング表示関数（さっきの loadRanking/loadAll を流用）
 async function loadRanking(targetId, year, month, type) {
-  const url = `https://script.google.com/macros/s/AKf.../exec?year=${year}&month=${month}&type=${encodeURIComponent(type)}`;
+  const url = `https://script.google.com/macros/s/AKfycbxssT9BzMxWm8pWTF_RwPPccfaQe3sZbDLHoAbT_4VPB1kC4bikLfh8_XTTUrPPetcY/exec?year=${year}&month=${month}&type=${encodeURIComponent(type)}`;
   const res = await fetch(url);
   const data = await res.json();
 
   const table = document.getElementById(targetId);
 
+  // ラベル切り替え
   let label = "";
   if (type.includes("半荘数")) label = "半荘数";
   else if (type.includes("総スコア")) label = "総スコア";
@@ -48,12 +13,14 @@ async function loadRanking(targetId, year, month, type) {
   else if (type.includes("平均スコア")) label = "平均スコア";
   else if (type.includes("平均着順")) label = "平均着順";
 
+  // ヘッダー
   table.innerHTML = `
     <div class="ranking-header">No.</div>
     <div class="ranking-header">名前</div>
     <div class="ranking-header">${label}</div>
   `;
 
+  // データ行（件数は可変）
   data.forEach(row => {
     table.innerHTML += `
       <div class="ranking-data">${row.no}</div>
@@ -71,15 +38,12 @@ function loadAll(year, month) {
   loadRanking("table-avgposition", year, month, "平均着順ランキング");
 }
 
-// 初期化 & 初回表示
-initSelectors();
-const initYear = document.getElementById("year-select").value;
-const initMonth = document.getElementById("month-select").value;
-loadAll(initYear, initMonth);
-
 // ボタンイベント
 document.getElementById("search-button").addEventListener("click", () => {
   const year = document.getElementById("year-select").value;
   const month = document.getElementById("month-select").value;
   loadAll(year, month);
 });
+
+// 初期表示（例：2025年9月）
+loadAll(2025, 9);
