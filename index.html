@@ -1,67 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ランキング（年月切替）</title>
-  <style>
-
-    .controls { display:flex; gap:10px; justify-content:center; margin:12px 0; }
-    .controls select { font-size:4vw; padding:6px; }
-
-    .ranking-table {
-      display: grid;
-      grid-template-columns: 12vw 56vw 22vw; /* No., 名前, 値 */
-      width: 90%;
-      grid-auto-rows: 9vw;
-      margin-bottom: 15px;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-left: 5vw;
-      margin-right: auto;
-      justify-content: start;
-    }
-    .ranking-table div {
-      border: 0.5px solid #555;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px;
-      box-sizing: border-box;
-      background: white;
-      font-size: 3.2vw;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .ranking-header {
-      font-weight: bold;
-      background-color: #d0ebff;
-      font-size: 3vw;
-    }
-    .ranking-name { justify-content: flex-start; text-align: left; padding-left:6px; }
-    .ranking-score { justify-content: flex-end; text-align: right; padding-right:6px; }
-
-    #message { text-align:center; margin-top:8px; font-size:3.5vw; color:#333; }
-  </style>
+  <meta charset="UTF-8">
+  <title>ランキング表示</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <div class="controls">
-      <label>年
-        <select id="year"></select>
-      </label>
-      <label>月
-        <select id="month"></select>
-      </label>
+  <h1>まぁじゃんぱらだいす</h1>
+  <h2>月間ランキング</h2>
+
+  <!-- 年月選択 -->
+  <div id="search-area">
+    <div id="search-inputs">
+      <select id="year-select"></select>
+      <select id="month-select"></select>
+      <button id="search-button">表示</button>
     </div>
-  </header>
+  </div>
 
-  <main>
-    <div class="ranking-table" id="rankingTable"></div>
-    <div id="message"></div>
-  </main>
+  <!-- 結果表示エリア -->
+  <div id="results"></div>
 
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
