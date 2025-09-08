@@ -31,12 +31,14 @@ document.getElementById("search-button").addEventListener("click", () => {
   const year = yearSelect.value;
   const month = monthSelect.value;
 
-  resultsDiv.innerHTML = ""; // リセット
+  // ここで結果をリセット
+  resultsDiv.innerHTML = "";
 
   rankingTypes.forEach(rt => {
     fetchRanking(year, month, rt.key, rt.title);
   });
 });
+
 
 function fetchRanking(year, month, type, title) {
   const apiUrl = `https://script.google.com/macros/s/AKfycbyOKV9MCu4xcFP97ZsXPdA0lZ0y6VpH-9Cjq1XZZ_uebKRwvcXek3t_p7kYK6vbEUDJ/exec?year=${year}&month=${month}&type=${type}`;
