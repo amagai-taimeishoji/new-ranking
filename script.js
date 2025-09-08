@@ -1,7 +1,9 @@
 const yearSelect = document.getElementById('yearSelect');
 const monthSelect = document.getElementById('monthSelect');
+const searchBtn = document.getElementById('searchBtn');
 const loading = document.getElementById('loading');
 const rankingsDiv = document.getElementById('rankings');
+const rankingTitle = document.getElementById('rankingTitle');
 
 // 年・月プルダウン作成
 for (let y = 2025; y <= 2027; y++) {
@@ -18,23 +20,19 @@ for (let m = 1; m <= 12; m++) {
   monthSelect.appendChild(option);
 }
 
-// 初期表示を現在のひと月前に設定
+// 初期値をひと月前に設定
 const today = new Date();
-today.setMonth(today.getMonth() - 1); // ひと月前
-const initialYear = today.getFullYear();
-const initialMonth = today.getMonth() + 1; // JSは0始まり
-
-yearSelect.value = initialYear;
-monthSelect.value = initialMonth;
+today.setMonth(today.getMonth() - 1);
+yearSelect.value = today.getFullYear();
+monthSelect.value = today.getMonth() + 1;
 
 // GAS URL
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwQ3jqSY6r-Fo84dUI3V8n1ZM0RIkn1SsHm7Av7TrLA9gsJL3pz0Vu_DYgpmfi5P_pi/exec';
+const GAS_URL = 'https://script.google.com/macros/s/xxxx/exec'; // ←自分のGAS URLに置き換え
 
 // データ取得
 async function fetchRanking(year, month) {
   const res = await fetch(`${GAS_URL}?year=${year}&month=${month}`);
-  const data = await res.json();
-  return data; 
+  return await res.json();
 }
 
 // スコアフォーマット
@@ -58,39 +56,34 @@ function renderRanking(id, data, scoreType) {
   const tbody = document.querySelector(`#${id} tbody`);
   tbody.innerHTML = '';
 
-  // ヘッダー行（2行目）
+  // ヘッダー行
   if(data.header && data.header.length === 3){
     const headerTr = document.createElement('tr');
-    headerTr.innerHTML = `
-      <th>${data.header[0]}</th>
-      <th>${data.header[1]}</th>
-      <th>${data.header[2]}</th>
-    `;
+    headerTr.innerHTML = `<th>${data.header[0]}</th><th>${data.header[1]}</th><th>${data.header[2]}</th>`;
     tbody.appendChild(headerTr);
   }
 
-  // データ行（3行目以降）
+  // データ行
   data.rows.forEach(row => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${row.順位}位</td>
-      <td>${row.名前}</td>
-      <td>${formatScore(row.スコア, scoreType)}</td>
-    `;
+    tr.innerHTML = `<td>${row.順位}位</td><td>${row.名前}</td><td>${formatScore(row.スコア, scoreType)}</td>`;
     tbody.appendChild(tr);
   });
 }
 
-// 更新処理（ロード表示対応）
+// 更新処理
 async function updateRankings() {
   loading.style.display = 'block';
   rankingsDiv.style.display = 'none';
 
   const year = yearSelect.value;
   const month = monthSelect.value;
+
+  // タイトル更新
+  rankingTitle.textContent = `${year}年${month}月ランキング`;
+
   try {
     const data = await fetchRanking(year, month);
-
     renderRanking('hanjanRanking', data['半荘数ランキング'], '半荘数');
     renderRanking('totalScoreRanking', data['総スコアランキング'], '総スコア');
     renderRanking('highestScoreRanking', data['最高スコアランキング'], '最高スコア');
@@ -98,7 +91,7 @@ async function updateRankings() {
     renderRanking('averageRankRanking', data['平均着順ランキング'], '平均着順');
   } catch (err) {
     console.error(err);
-    loading.textContent = "データ取得に失敗しました…💦";
+    loading.textContent = "データ取得に失敗しました…(T‐T)";
     return;
   }
 
@@ -106,9 +99,8 @@ async function updateRankings() {
   rankingsDiv.style.display = 'block';
 }
 
-// プルダウン変更時
-yearSelect.addEventListener('change', updateRankings);
-monthSelect.addEventListener('change', updateRankings);
+// 検索ボタン
+searchBtn.addEventListener('click', updateRankings);
 
-// 初期表示（ひと月前）
+// 初期表示
 updateRankings();
