@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>ランキング表示</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ランキング表示</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>まぁじゃんぱらだいす</h1>
-  <h2>月間ランキング</h2>
+  <div class="controls">
+    <select id="yearSelect"></select>
+    <select id="monthSelect"></select>
+  </div>
 
-  <!-- 年月選択 -->
-  <div id="search-area">
-    <div id="search-inputs">
-      <select id="year-select"></select>
-      <select id="month-select"></select>
-      <button id="search-button">表示</button>
+  <!-- ロード中表示 -->
+  <div id="loading">ロードチュ…♡</div>
+
+  <!-- ランキング表示 -->
+  <div id="rankings" style="display:none;">
+    <div class="ranking" id="hanjanRanking">
+      <h2>半荘数ランキング</h2>
+      <table><tbody></tbody></table>
+    </div>
+    <div class="ranking" id="totalScoreRanking">
+      <h2>総スコアランキング</h2>
+      <table><tbody></tbody></table>
+    </div>
+    <div class="ranking" id="highestScoreRanking">
+      <h2>最高スコアランキング</h2>
+      <table><tbody></tbody></table>
+    </div>
+    <div class="ranking" id="averageScoreRanking">
+      <h2>平均スコアランキング</h2>
+      <table><tbody></tbody></table>
+    </div>
+    <div class="ranking" id="averageRankRanking">
+      <h2>平均着順ランキング</h2>
+      <table><tbody></tbody></table>
     </div>
   </div>
 
-  <!-- 結果表示エリア -->
-  <div id="results"></div>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
