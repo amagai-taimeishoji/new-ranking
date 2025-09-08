@@ -1,85 +1,96 @@
-// プルダウン初期化
-function initSelectors() {
-  const yearSelect = document.getElementById("year-select");
-  const monthSelect = document.getElementById("month-select");
+// ==== 年月セレクトを生成 ====
+const yearSelect = document.getElementById("year-select");
+const monthSelect = document.getElementById("month-select");
+const resultsDiv = document.getElementById("results");
 
-  // 年: 2025〜2027
-  for (let y = 2025; y <= 2027; y++) {
-    const option = document.createElement("option");
-    option.value = y;
-    option.textContent = `${y}年`;
-    yearSelect.appendChild(option);
-  }
-
-  // 月: 1〜12
-  for (let m = 1; m <= 12; m++) {
-    const option = document.createElement("option");
-    option.value = m;
-    option.textContent = `${m}月`;
-    monthSelect.appendChild(option);
-  }
-
-  // 今日の年月を取得
-  const now = new Date();
-  const thisYear = now.getFullYear();
-  const thisMonth = now.getMonth() + 1;
-
-  // 初期値を「現在の年月」に設定
-  if (thisYear >= 2025 && thisYear <= 2027) {
-    yearSelect.value = thisYear;
-  } else {
-    yearSelect.value = 2025; // 範囲外ならデフォルト
-  }
-  monthSelect.value = thisMonth;
+for (let y = 2025; y <= 2027; y++) {
+  let opt = document.createElement("option");
+  opt.value = y;
+  opt.textContent = y + "年";
+  yearSelect.appendChild(opt);
 }
 
-// ランキング表示関数（さっきの loadRanking/loadAll を流用）
-async function loadRanking(targetId, year, month, type) {
-  const url = `https://script.google.com/macros/s/AKfycbyOKV9MCu4xcFP97ZsXPdA0lZ0y6VpH-9Cjq1XZZ_uebKRwvcXek3t_p7kYK6vbEUDJ/exec?year=${year}&month=${month}&type=${encodeURIComponent(type)}`;
-  const res = await fetch(url);
-  const data = await res.json();
-
-  const table = document.getElementById(targetId);
-
-  let label = "";
-  if (type.includes("半荘数")) label = "半荘数";
-  else if (type.includes("総スコア")) label = "総スコア";
-  else if (type.includes("最高スコア")) label = "最高スコア";
-  else if (type.includes("平均スコア")) label = "平均スコア";
-  else if (type.includes("平均着順")) label = "平均着順";
-
-  table.innerHTML = `
-    <div class="ranking-header">No.</div>
-    <div class="ranking-header">名前</div>
-    <div class="ranking-header">${label}</div>
-  `;
-
-  data.forEach(row => {
-    table.innerHTML += `
-      <div class="ranking-data">${row.no}</div>
-      <div class="ranking-data ranking-name">${row.name}</div>
-      <div class="ranking-data ranking-score">${row.score}</div>
-    `;
-  });
+for (let m = 1; m <= 12; m++) {
+  let opt = document.createElement("option");
+  opt.value = m;
+  opt.textContent = m + "月";
+  monthSelect.appendChild(opt);
 }
 
-function loadAll(year, month) {
-  loadRanking("table-hansou", year, month, "半荘数ランキング");
-  loadRanking("table-soscore", year, month, "総スコアランキング");
-  loadRanking("table-maxscore", year, month, "最高スコアランキング");
-  loadRanking("table-avgscore", year, month, "平均スコアランキング");
-  loadRanking("table-avgposition", year, month, "平均着順ランキング");
-}
+// ==== ランキング種類 ====
+const rankingTypes = [
+  { key: "半荘数ランキング", title: "半荘数ランキング" },
+  { key: "総スコアランキング", title: "総スコアランキング" },
+  { key: "最高スコアランキング", title: "最高スコアランキング" },
+  { key: "平均スコアランキング", title: "平均スコアランキング" },
+  { key: "平均着順ランキング", title: "平均着順ランキング" }
+];
 
-// 初期化 & 初回表示
-initSelectors();
-const initYear = document.getElementById("year-select").value;
-const initMonth = document.getElementById("month-select").value;
-loadAll(initYear, initMonth);
-
-// ボタンイベント
+// ==== データ取得 ====
 document.getElementById("search-button").addEventListener("click", () => {
-  const year = document.getElementById("year-select").value;
-  const month = document.getElementById("month-select").value;
-  loadAll(year, month);
+  const year = yearSelect.value;
+  const month = monthSelect.value;
+
+  // ここで結果をリセット
+  resultsDiv.innerHTML = "";
+
+  rankingTypes.forEach(rt => {
+    fetchRanking(year, month, rt.key, rt.title);
+  });
 });
+
+
+function fetchRanking(year, month, type, title) {
+  const apiUrl = `https://script.google.com/macros/s/AKfycbyOKV9MCu4xcFP97ZsXPdA0lZ0y6VpH-9Cjq1XZZ_uebKRwvcXek3t_p7kYK6vbEUDJ/exec?year=${year}&month=${month}&type=${type}`;
+
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      renderTable(title, data);
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      renderTable(title, []);
+    });
+}
+
+// ==== 表示用テーブル生成 ====
+function renderTable(title, rows) {
+  const container = document.createElement("div");
+
+  const heading = document.createElement("h2");
+  heading.textContent = title;
+  container.appendChild(heading);
+
+  const table = document.createElement("div");
+  table.className = "table";
+
+  // ヘッダー
+  ["順位", "名前", "スコア"].forEach(h => {
+    const div = document.createElement("div");
+    div.className = "header";
+    div.textContent = h;
+    table.appendChild(div);
+  });
+
+  // データ
+  rows.forEach((row, index) => {
+    const rank = document.createElement("div");
+    rank.className = "data";
+    rank.textContent = index + 1;
+    table.appendChild(rank);
+
+    const name = document.createElement("div");
+    name.className = "data";
+    name.textContent = row[0] || "";
+    table.appendChild(name);
+
+    const score = document.createElement("div");
+    score.className = "data";
+    score.textContent = row[1] || "";
+    table.appendChild(score);
+  });
+
+  container.appendChild(table);
+  resultsDiv.appendChild(container);
+}
