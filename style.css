@@ -72,6 +72,10 @@ body {
   margin-right: auto;
 }
 
+p{
+　font-size: 3.5vw;
+}
+
 #rankingTitle .yearMonth {
   font-size: 1.5rem;
   display: block;
