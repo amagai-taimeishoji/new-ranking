@@ -27,7 +27,7 @@ yearSelect.value = today.getFullYear();
 monthSelect.value = today.getMonth() + 1;
 
 // GAS URL
-const GAS_URL = 'https://script.google.com/macros/s/xxxx/exec'; // ←自分のGAS URLに置き換え
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwODALSZqcS-GNaYO6lbDrTqc0NW3lZ7KK3HA17yVpfSKTiD-B_b7OQlXFCwPOaep7y/exec'; 
 
 // データ取得
 async function fetchRanking(year, month) {
