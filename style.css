@@ -68,7 +68,7 @@ body {
 
 /* ランキング下の注釈文だけフォントサイズ変更 */
 .ranking p {
-  font-size: 3vw;   /* スマホなら画面幅に応じたサイズ */
+  font-size: 5vw;   /* スマホなら画面幅に応じたサイズ */
   margin-top: 5px;    /* 上に余白 */
   text-align:  right;
 }
