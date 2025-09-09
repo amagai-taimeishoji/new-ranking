@@ -58,7 +58,6 @@ body {
   margin-bottom: 20px;
   background-color: #e9f4ff; /* 青色 */
   border-radius: 8px;
-  width: 100%; /* 画面幅に合わせて可変 */
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
