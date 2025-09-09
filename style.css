@@ -62,9 +62,8 @@ body {
   font-weight: bold;
   padding: 12px 20px;
   margin-bottom: 20px;
-  background-color: #ffcc33; /* 淡い黄色 */
+  background-color: #e9f4ff; /* 青色 */
   color: #000; /* 黒文字 */
-  border: 2px solid #000; /* 黒枠 */
   border-radius: 8px;
   width: 90%; /* 画面幅に合わせて可変 */
   max-width: 600px;
@@ -73,7 +72,7 @@ body {
 }
 
 p{
-　font-size: 2vw;
+　font-size: 1vw;
 }
 
 #rankingTitle .yearMonth {
@@ -105,7 +104,7 @@ th {
 }
 
 #loading {
-  font-size: 1.2rem;
+  font-size: 0.5rem;
   text-align: center;
   margin: 20px 0;
 }
