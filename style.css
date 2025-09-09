@@ -70,7 +70,7 @@ body {
 .ranking p {
   font-size: 3vw;   /* スマホなら画面幅に応じたサイズ */
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 #rankingTitle .yearMonth {
