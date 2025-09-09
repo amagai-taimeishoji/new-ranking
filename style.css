@@ -67,7 +67,7 @@ body {
 }
 
 p{
-　font-size: 0.8rem;
+　font-size: 0.3rem;
 }
 
 #rankingTitle .yearMonth {
@@ -92,6 +92,7 @@ table {
 th, td {
   padding: 6px 8px;
   text-align: left;
+  font-size: 0.5rem;
   border-bottom: 1px solid #ccc;
 }
 
