@@ -48,19 +48,13 @@ body {
   background: linear-gradient(45deg, #45a049, #66bb6a);
 }
 
-/* 上部サイト名 */
-#siteTitle {
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.4rem; /* ランキングと同じくらいのサイズ */
-  margin-bottom: 8px;
-}
+
 
 /* ランキングタイトル（改行＋淡い黄色＋黒文字＋黒枠） */
 #rankingTitle {
   text-align: center;
   font-weight: bold;
-  padding: 12px 20px;
+  padding: 6px 10px;
   margin-bottom: 20px;
   background-color: #e9f4ff; /* 青色 */
   color: #000; /* 黒文字 */
