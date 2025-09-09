@@ -50,19 +50,19 @@ body {
 
 
 
-/* ランキングタイトル（改行＋淡い黄色＋黒文字＋黒枠） */
+/* ランキングタイトル（改行＋青色＋黒文字＋青枠） */
 #rankingTitle {
   text-align: center;
   font-weight: bold;
   padding: 6px 10px;
   margin-bottom: 20px;
   background-color: #e9f4ff; /* 青色 */
-  color: #000; /* 黒文字 */
   border-radius: 8px;
-  width: 90%; /* 画面幅に合わせて可変 */
+  width: 100%; /* 画面幅に合わせて可変 */
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  border: solid 3px #6091d3;/*線*/
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);
 }
 
