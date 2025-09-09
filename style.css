@@ -66,8 +66,10 @@ body {
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);
 }
 
-p{
-　font-size: 0.3rem;
+/* ランキング下の注釈文だけフォントサイズ変更 */
+.ranking p {
+  font-size: 1.5vw;   /* スマホなら画面幅に応じたサイズ */
+  margin-top: 5px;    /* 上に余白 */
 }
 
 #rankingTitle .yearMonth {
