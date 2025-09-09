@@ -64,8 +64,19 @@ function renderRanking(id, data, scoreType) {
 
   // データ行
   data.rows.forEach(row => {
+    let name = row.名前 || "";
+
+    // 名前が9文字以上なら9文字目で改行
+    if (name.length >= 9) {
+      name = name.slice(0, 9) + "<br>" + name.slice(9);
+    }
+
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${row.順位}位</td><td>${row.名前}</td><td>${formatScore(row.スコア, scoreType)}</td>`;
+    tr.innerHTML = `
+      <td>${row.順位}位</td>
+      <td>${name}</td>
+      <td>${formatScore(row.スコア, scoreType)}</td>
+    `;
     tbody.appendChild(tr);
   });
 }
