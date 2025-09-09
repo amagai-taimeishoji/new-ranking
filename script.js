@@ -79,7 +79,7 @@ async function updateRankings() {
   const month = monthSelect.value;
 
   // タイトル更新（プルダウン値に合わせて改行表示）
-  rankingTitle.innerHTML = `<span class="yearMonth">${year}年${month}月</span><br><span class="rankingText">ランキング</span>`;
+  rankingTitle.innerHTML = `<span class="yearMonth">${year}年${month}月</span>`;
 
   try {
     // GASからデータ取得
