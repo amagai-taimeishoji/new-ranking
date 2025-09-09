@@ -69,7 +69,8 @@ body {
 /* ランキング下の注釈文だけフォントサイズ変更 */
 .ranking p {
   font-size: 3vw;   /* スマホなら画面幅に応じたサイズ */
-  text-align:  right;
+  text-align:   left;
+  margin-left: 30vw;
 }
 
 #rankingTitle .yearMonth {
