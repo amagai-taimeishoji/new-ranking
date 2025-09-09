@@ -67,7 +67,7 @@ body {
 }
 
 p{
-　font-size: 1vw;
+　font-size: 0.5vw;
 }
 
 #rankingTitle .yearMonth {
@@ -100,7 +100,7 @@ th {
 }
 
 #loading {
-  font-size: 0.5rem;
+  font-size: 1rem;
   text-align: center;
   margin: 20px 0;
   color:red;
