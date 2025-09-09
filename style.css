@@ -58,8 +58,9 @@ body {
   margin-bottom: 20px;
   background-color: #e9f4ff; /* 青色 */
   border-radius: 8px;
+  width: 90%;
   max-width: 600px;
-  margin-left: auto;
+  margin-left: auto; 
   margin-right: auto;
   border: solid 3px #6091d3;/*線*/
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);
