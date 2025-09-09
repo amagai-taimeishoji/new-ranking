@@ -62,7 +62,7 @@ body {
   max-width: 600px;
   margin-left: auto; 
   margin-right: auto;
-  border: solid 3px #6091d3;/*線*/
+  border: solid 3px #33CCFF;/*線*/
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);
 }
 
@@ -103,6 +103,7 @@ th {
   font-size: 0.5rem;
   text-align: center;
   margin: 20px 0;
+  color:red;
 }
 
 .ranking {
