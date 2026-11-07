@@ -2,8 +2,10 @@ const yearSelect = document.getElementById('yearSelect');
 const monthSelect = document.getElementById('monthSelect');
 const searchBtn = document.getElementById('searchBtn');
 const loading = document.getElementById('loading');
-const rankingsDiv = document.getElementById('rankings');
+const appContainer = document.getElementById('appContainer');
 const rankingTitle = document.getElementById('rankingTitle');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const rankingPanels = document.querySelectorAll('.ranking-panel');
 
 // 年・月プルダウン作成
 for (let y = 2025; y <= 2027; y++) {
@@ -27,7 +29,8 @@ yearSelect.value = today.getFullYear();
 monthSelect.value = today.getMonth() + 1;
 
 // GAS URL
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwODALSZqcS-GNaYO6lbDrTqc0NW3lZ7KK3HA17yVpfSKTiD-B_b7OQlXFCwPOaep7y/exec'; // 
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwODALSZqcS-GNaYO6lbDrTqc0NW3lZ7KK3HA17yVpfSKTiD-B_b7OQlXFCwPOaep7y/exec'; 
+
 // データ取得
 async function fetchRanking(year, month) {
   const res = await fetch(`${GAS_URL}?year=${year}&month=${month}`);
@@ -53,6 +56,7 @@ function formatScore(value, type) {
 // ランキング描画
 function renderRanking(id, data, scoreType) {
   const tbody = document.querySelector(`#${id} tbody`);
+  if (!tbody) return;
   tbody.innerHTML = '';
 
   // ヘッダー行
@@ -63,33 +67,35 @@ function renderRanking(id, data, scoreType) {
   }
 
   // データ行
-  data.rows.forEach(row => {
-    let name = row.名前 || "";
+  if(data.rows) {
+    data.rows.forEach(row => {
+      let name = row.名前 || "";
 
-    // 名前が9文字以上なら9文字目で改行
-    if (name.length >= 9) {
-      name = name.slice(0, 9) + "<br>" + name.slice(9);
-    }
+      // 名前が9文字以上なら9文字目で改行
+      if (name.length >= 9) {
+        name = name.slice(0, 9) + "<br>" + name.slice(9);
+      }
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${row.順位}位</td>
-      <td>${name}</td>
-      <td>${formatScore(row.スコア, scoreType)}</td>
-    `;
-    tbody.appendChild(tr);
-  });
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row.順位}位</td>
+        <td>${name}</td>
+        <td>${formatScore(row.スコア, scoreType)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 }
 
 // 更新処理
 async function updateRankings() {
   loading.style.display = 'block';
-  rankingsDiv.style.display = 'none';
+  appContainer.style.display = 'none';
 
   const year = yearSelect.value;
   const month = monthSelect.value;
 
-  // タイトル更新（プルダウン値に合わせて改行表示）
+  // タイトル更新
   rankingTitle.innerHTML = `<span class="yearMonth">${year}年${month}月</span>`;
 
   try {
@@ -111,8 +117,25 @@ async function updateRankings() {
 
   // ロード中非表示、ランキング表示
   loading.style.display = 'none';
-  rankingsDiv.style.display = 'block';
+  appContainer.style.display = 'block';
 }
+
+// タブ切り替えのイベント設定
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const targetId = btn.getAttribute('data-target');
+    rankingPanels.forEach(panel => {
+      if (panel.id === targetId) {
+        panel.classList.add('active');
+      } else {
+        panel.classList.remove('active');
+      }
+    });
+  });
+});
 
 // 検索ボタン
 searchBtn.addEventListener('click', updateRankings);
