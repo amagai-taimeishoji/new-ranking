@@ -13,42 +13,55 @@
     <button id="searchBtn">検索</button>
   </div>
 
-  <!-- 上部固定タイトル -->
-
-<!-- ランキングタイトル -->
-<div id="rankingTitle">
-  <span class="yearMonth">2025年8月</span><br>
+  <!-- ランキングタイトル -->
+  <div id="rankingTitle">
+    <span class="yearMonth">2025年8月</span>
   </div>
 
   <!-- ロード中表示 -->
   <div id="loading">ロード、チュ…♡</div>
 
-  <!-- ランキング表示 -->
-  <div id="rankings" style="display:none;">
-    <div class="ranking" id="hanjanRanking">
-      <h2>半荘数ランキング</h2>
-      <table><tbody></tbody></table>
-      <p>※スタッフを除いた結果</p>
+  <!-- インデックスタブエリア -->
+  <div id="appContainer" style="display:none;">
+    <div class="tab-container">
+      <button class="tab-btn active" data-target="hanjanRanking">半荘数</button>
+      <button class="tab-btn" data-target="totalScoreRanking">総スコア</button>
+      <button class="tab-btn" data-target="highestScoreRanking">最高スコア</button>
+      <button class="tab-btn" data-target="averageScoreRanking">平均スコア</button>
+      <button class="tab-btn" data-target="averageRankRanking">平均着順</button>
     </div>
-    <div class="ranking" id="totalScoreRanking">
-      <h2>総スコアランキング</h2>
-      <table><tbody></tbody></table>
-      <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
-    </div>
-    <div class="ranking" id="highestScoreRanking">
-      <h2>最高スコアランキング</h2>
-      <table><tbody></tbody></table>
-      <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
-    </div>
-    <div class="ranking" id="averageScoreRanking">
-      <h2>平均スコアランキング</h2>
-      <table><tbody></tbody></table>
-      <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
-    </div>
-    <div class="ranking" id="averageRankRanking">
-      <h2>平均着順ランキング</h2>
-      <table><tbody></tbody></table>
-      <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
+
+    <!-- ランキング表示エリア（タブで切り替え） -->
+    <div id="rankings">
+      <div class="ranking-panel active" id="hanjanRanking">
+        <h2>半荘数ランキング</h2>
+        <table><tbody></tbody></table>
+        <p>※スタッフを除いた結果</p>
+      </div>
+
+      <div class="ranking-panel" id="totalScoreRanking">
+        <h2>総スコアランキング</h2>
+        <table><tbody></tbody></table>
+        <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
+      </div>
+
+      <div class="ranking-panel" id="highestScoreRanking">
+        <h2>最高スコアランキング</h2>
+        <table><tbody></tbody></table>
+        <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
+      </div>
+
+      <div class="ranking-panel" id="averageScoreRanking">
+        <h2>平均スコアランキング</h2>
+        <table><tbody></tbody></table>
+        <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
+      </div>
+
+      <div class="ranking-panel" id="averageRankRanking">
+        <h2>平均着順ランキング</h2>
+        <table><tbody></tbody></table>
+        <p>※該当月のゲーム数が9半荘以下の方とスタッフを除いた結果<br>※同着の場合、半荘数で順位を決定</p>
+      </div>
     </div>
   </div>
 
