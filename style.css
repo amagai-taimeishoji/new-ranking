@@ -1,7 +1,7 @@
 body {
   font-family: 'Noto Sans JP', sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 16px;
   background-color: #fefefe;
   color: #333;
 }
@@ -37,7 +37,7 @@ body {
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
-  font-size: 3.5vw;
+  font-size: 0.9rem;
   cursor: pointer;
   white-space: nowrap;
   transition: transform 0.2s ease, background 0.3s ease;
@@ -48,78 +48,91 @@ body {
   background: linear-gradient(45deg, #45a049, #66bb6a);
 }
 
-
-
-/* ランキングタイトル（改行＋青色＋黒文字＋青枠） */
+/* ランキングタイトル（元の青系カラーを踏襲） */
 #rankingTitle {
   text-align: center;
   font-weight: bold;
-  padding: 6px 10px;
-  margin-bottom: 20px;
-  background-color: #e9f4ff; /* 青色 */
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  background-color: #e9f4ff;
   border-radius: 8px;
   width: 90%;
   max-width: 600px;
   margin-left: auto; 
   margin-right: auto;
-  border: solid 3px 	#A6DAFF;/*線*/
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);
-}
-
-/* ランキング下の注釈文だけフォントサイズ変更 */
-.ranking p {
-  font-size: 3vw;   /* スマホなら画面幅に応じたサイズ */
-  text-align: left;
-  margin-bottom: 30px;
+  border: solid 3px #a6daff;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
 }
 
 #rankingTitle .yearMonth {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  color: #2b6cb0;
   display: block;
 }
 
-#rankingTitle .rankingText {
-  font-size: 4rem;
-  display: block;
-  border: solid 3px #6091d3;
-}
-
-
-/* ランキングテーブル */
-table {
+/* インデックスタブのデザイン（均等幅・スマホ対応） */
+.tab-container {
+  display: flex;
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 2px;
+  box-sizing: border-box;
 }
 
-th, td {
-  padding: 6px 8px;
-  text-align: left;
-  font-size: 1rem;
-  border-bottom: 1px solid #ccc;
-}
-
-th {
-  background-color: #d0ebff; /* ヘッダー背景色 */
-}
-
-#loading {
-  font-size: 1rem;
+.tab-btn {
+  flex: 1;
   text-align: center;
-  margin: 20px 0;
-  color:red;
+  background-color: #e2f0fd;
+  border: 2px solid #b3d7ff;
+  border-bottom: none;
+  color: #1a5276;
+  padding: 8px 2px;
+  font-size: 0.72rem;
+  font-weight: bold;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
 }
 
-.ranking {
-  margin-bottom: 30px;
+.tab-btn:hover {
+  background-color: #cce7ff;
 }
 
-/* ランキング各タイトル（表の中） */
-.ranking h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.tab-btn.active {
+  background-color: #fff;
+  color: #2b6cb0;
+  transform: translateY(-2px);
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+}
+
+/* ランキングパネル（カード風） */
+.ranking-panel {
+  display: none;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #b3d7ff;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ranking-panel.active {
+  display: block;
+}
+
+/* パネル内のタイトル */
+.ranking-panel h2 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 15px;
   text-align: center;
   padding: 6px 0;
+  color: #2b6cb0;
   background: repeating-linear-gradient(
       -45deg,
       #f0f8ff,
@@ -128,4 +141,71 @@ th {
       #e9f4ff 7px
   );
   border-radius: 4px;
+  border: 1px dashed #a6daff;
+}
+
+/* 元の注釈テキストのスタイル維持 */
+.ranking-panel p {
+  font-size: 0.75rem;
+  color: #555;
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+/* ランキングテーブル（列幅固定で名前のズレを防止） */
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+th:nth-child(1), td:nth-child(1) {
+  width: 22%;
+  text-align: center;
+}
+
+th:nth-child(2), td:nth-child(2) {
+  width: 48%;
+  text-align: left;
+  padding-left: 12px;
+}
+
+th:nth-child(3), td:nth-child(3) {
+  width: 30%;
+  text-align: right;
+  padding-right: 12px;
+}
+
+th, td {
+  padding: 8px 6px;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #d0ebff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+td:nth-child(2) {
+  white-space: normal; 
+  line-height: 1.2;
+}
+
+th {
+  background-color: #d0ebff; 
+  color: #1a5276;
+}
+
+tr:hover {
+  background-color: #f7fbff;
+}
+
+#loading {
+  font-size: 1rem;
+  text-align: center;
+  margin: 20px 0;
+  color: red;
+  font-weight: bold;
 }
