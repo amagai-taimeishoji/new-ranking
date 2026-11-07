@@ -11,23 +11,23 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   justify-content: center;
   align-items: center;
 }
 
 .controls select {
-  padding: 5px 12px;
+  padding: 6px 12px;
   font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #b3d7ff;
+  border-radius: 6px;
   background-color: #fff;
   transition: all 0.2s;
 }
 
 .controls select:focus {
   outline: none;
-  border-color: #888;
+  border-color: #2b6cb0;
 }
 
 /* 検索ボタン */
@@ -35,20 +35,21 @@ body {
   background: linear-gradient(45deg, #4caf50, #81c784);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
+  border-radius: 6px;
+  padding: 7px 16px;
   font-size: 0.9rem;
   cursor: pointer;
   white-space: nowrap;
   transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 #searchBtn:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   background: linear-gradient(45deg, #45a049, #66bb6a);
 }
 
-/* ランキングタイトル（元の青系カラーを踏襲） */
+/* ランキングタイトル（all版と完全同仕様の丸み・実線・シャドウ） */
 #rankingTitle {
   text-align: center;
   font-weight: bold;
@@ -90,7 +91,7 @@ body {
   padding: 8px 2px;
   font-size: 0.72rem;
   font-weight: bold;
-  border-radius: 6px 6px 0 0;
+  border-radius: 8px 8px 0 0;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -109,7 +110,7 @@ body {
   box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
 }
 
-/* ランキングパネル（カード風） */
+/* ランキングパネル（all版と同じ角丸・実線枠・シャドウ） */
 .ranking-panel {
   display: none;
   background: #fff;
@@ -125,9 +126,9 @@ body {
   display: block;
 }
 
-/* パネル内のタイトル */
+/* パネル内の見出しタイトル（all版と同じ実線枠＋ストライプ背景に統一） */
 .ranking-panel h2 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-top: 0;
   margin-bottom: 15px;
   text-align: center;
@@ -141,25 +142,26 @@ body {
       #e9f4ff 7px
   );
   border-radius: 4px;
-  border: 1px dashed #a6daff;
 }
 
-/* 元の注釈テキストのスタイル維持 */
+/* 各ランキング内の注釈文（点線等をなくし、スッキリした区切り線に統一） */
 .ranking-panel p {
   font-size: 0.75rem;
-  color: #555;
+  color: #666;
   text-align: left;
   margin-top: 15px;
   margin-bottom: 0;
-  line-height: 1.4;
+  line-height: 1.5;
+  border-top: 1px solid #d0ebff;
+  padding-top: 10px;
 }
 
-/* ランキングテーブル（列幅固定で名前のズレを防止） */
+/* ランキングテーブル（列幅固定で名前のズレを完全に防止） */
 table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 th:nth-child(1), td:nth-child(1) {
@@ -202,10 +204,11 @@ tr:hover {
   background-color: #f7fbff;
 }
 
+/* ロード中表示 */
 #loading {
   font-size: 1rem;
   text-align: center;
-  margin: 20px 0;
-  color: red;
+  margin: 30px 0;
+  color: #2b6cb0;
   font-weight: bold;
 }
